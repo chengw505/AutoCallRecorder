@@ -7,7 +7,8 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/slidingmenu_bg">
+        android:background="@drawable/slidingmenu_bg"
+        android:id="@+id/relativeLayout">
 
         <ImageButton
             android:id="@+id/main_flipper"
@@ -30,20 +31,20 @@
             />
 
         <ImageButton
-            android:id="@+id/main_search"
+            android:id="@+id/main_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="5dip"
-            android:background="@drawable/main_search" />
+            android:background="@drawable/share_grey" />
     </RelativeLayout>
 
-    <RelativeLayout
+    <ListView
+        android:id="@+id/call_history_item"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
-
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:cacheColorHint="#00000000"
+        android:layout_below="@+id/relativeLayout" />
 
 </RelativeLayout>

@@ -1,13 +1,11 @@
 package com.chengw.autocallrecorder.adpater;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.chengw.autocallrecorder.R;
@@ -46,17 +44,17 @@ public class SlidingMenuAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Holder holder = null;
+        SlidingMenuItemHolder holder = null;
 
         if(null == convertView) {
-            holder = new Holder();
+            holder = new SlidingMenuItemHolder();
             convertView = mLayoutInflater.inflate(R.layout.sliding_menu_item, null);
             holder.img = (ImageView)convertView.findViewById(R.id.sliding_menu_image);
             holder.text = (TextView)convertView.findViewById(R.id.sliding_menu_text);
 
             convertView.setTag(holder);
         } else {
-            holder = (Holder)convertView.getTag();
+            holder = (SlidingMenuItemHolder)convertView.getTag();
         }
 
         holder.img.setImageResource(mSlidingMenuList.get(position).getId());
@@ -65,7 +63,7 @@ public class SlidingMenuAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private class Holder {
+    public class SlidingMenuItemHolder {
         TextView text;
         ImageView img;
     }

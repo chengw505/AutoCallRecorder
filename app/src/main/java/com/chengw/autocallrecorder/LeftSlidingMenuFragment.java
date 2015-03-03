@@ -1,15 +1,17 @@
 package com.chengw.autocallrecorder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.chengw.autocallrecorder.adpater.SlidingMenuAdapter;
-import com.chengw.autocallrecorder.custom.SlidingMenuListView;
 import com.chengw.autocallrecorder.model.ItemSlidingMenuModel;
 
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class LeftSlidingMenuFragment extends Fragment {
     private View mView;
     private ListView mSlidingMenu;
     private ArrayList<ItemSlidingMenuModel> mSlidingMenuModels;
+    private Context context;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -29,6 +32,7 @@ public class LeftSlidingMenuFragment extends Fragment {
         if(null == mView) {
             // create a new one
             mView = inflater.inflate(R.layout.sliding_menu, container, false);
+            context = mView.getContext();
 
             initialMenu();
         }
@@ -37,8 +41,7 @@ public class LeftSlidingMenuFragment extends Fragment {
     }
 
     private void initialMenu() {
-        Context context = mView.getContext();
-        mSlidingMenu = (ListView)mView.findViewById(R.id.sliding_menu);
+        mSlidingMenu = (ListView)mView.findViewById(R.id.sliding_menu_item);
 
         mSlidingMenuModels = new ArrayList<ItemSlidingMenuModel>();
 
@@ -51,6 +54,23 @@ public class LeftSlidingMenuFragment extends Fragment {
 
         // bind data
         mSlidingMenu.setAdapter(new SlidingMenuAdapter(context, mSlidingMenuModels));
+
+        mSlidingMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                switch(position) {
+                    case 0:
+                        startActivity(new Intent(context, SettingsActivity.class));
+                        break;
+
+                    default:
+                        Toast.makeText(view.getContext(), "TODO", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
     }
 
 
