@@ -7,10 +7,10 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/main_topbar">
+        android:background="@drawable/slidingmenu_bg">
 
         <ImageButton
-            android:id="@+id/btnMainFlipper"
+            android:id="@+id/main_flipper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -23,14 +23,14 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="25dip"
-            android:layout_toRightOf="@id/btnMainFlipper"
+            android:layout_toRightOf="@id/main_flipper"
             android:text="@string/app_name"
             android:textColor="@color/whilte"
 
             />
 
         <ImageButton
-            android:id="@+id/btnMainSearch"
+            android:id="@+id/main_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
