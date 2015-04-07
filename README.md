@@ -22,7 +22,9 @@ show me some good features and bad features for some call recording
 <h4>User 1
 <hr>
 24, Male
+
 Moderate Android User
+
 Not use call recording apps in the past
 
 <h4>Comments from user 1
@@ -37,7 +39,9 @@ User Interface is not good. don't like advertisement. good to have cloud storage
 <h4>User 2
 
 28, Male
+
 iSO user
+
 Not use call recording apps in the past
 
 <h4>Comments from user 2
@@ -51,14 +55,18 @@ User Interface is not good. don't like advertisement. good to have cloud storage
 <h4>User 3
 
 23, Male
+
 Moderate Android user
+
 Not use call recording apps in the past
 
 
 <h4>Comments from user 3
 <hr>
 need a call recording app.
+
 free, no bugs, and simple UI
+
 don't like advertising and other limits
 
 
@@ -73,7 +81,9 @@ do not set any limits, like recording numbers or time, and support cloud storage
 <h4>User 1
 
 24, Male
+
 Moderate Android User
+
 Not use call recording apps in the past
 
 <h4>Comments from user 1
@@ -81,9 +91,11 @@ Not use call recording apps in the past
 UI is simple enough but not cool.
 don't like any advertisement.
 
-User 2
+<h4>User 2
 28, Male
+
 iSO user
+
 Not use call recording apps in the past
 
 
