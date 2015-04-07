@@ -92,6 +92,7 @@ UI is simple enough but not cool.
 don't like any advertisement.
 
 <h4>User 2
+
 28, Male
 
 iSO user
@@ -107,7 +108,9 @@ don't like any advertisement.
 <h4>User 3
 
 23, Male
+
 Moderate Android user
+
 Not use call recording apps in the past
 
 
