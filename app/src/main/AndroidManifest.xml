@@ -20,6 +20,27 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
+
+        <!-- register my broadcast receiver -->
+        <receiver
+            android:name="com.chengw.autocallrecorder.TelListenerReceiver"
+            android:enabled="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+                <action android:name="android.intent.action.NEW_OUTGOING_CALL" />
+                <action android:name="android.intent.action.CAL" />
+            </intent-filter>
+        </receiver>
+
+        <!-- register my listener service -->
+        <service
+            android:name="com.chengw.autocallrecorder.TelListenerService"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.chengw.autocallrecorder.tellistner" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
