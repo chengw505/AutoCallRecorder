@@ -3,6 +3,7 @@
 <h1>Paper prototype for AutoCallRecorder
 
 By: Cheng Wang
+
 Date: March 24th 2015
 
 <h3>Part 1 (initial study)
