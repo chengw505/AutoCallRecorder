@@ -1,6 +1,8 @@
 package com.chengw.autocallrecorder;
 
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,14 +12,17 @@ import android.widget.Toast;
 
 import com.chengw.autocallrecorder.adpater.CallHistoryAdapter;
 import com.chengw.autocallrecorder.model.ItemCallHistoryModel;
-import com.chengw.autocallrecorder.model.ItemSlidingMenuModel;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
+import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 
 
 public class MainActivity extends SlidingFragmentActivity {
+    public final  static String TAG = "AutoRecorderTag";
+    public final static String recordingDir = "MyCallRecordings";
 
     private LeftSlidingMenuFragment mSlidingMenuFrag;
     private ArrayList<ItemCallHistoryModel> mCallHistoryModels;
@@ -102,19 +107,32 @@ public class MainActivity extends SlidingFragmentActivity {
     }
 
     private void onShareWith() {
-        // TODO
+        // TODO share with others
         Toast.makeText(getApplicationContext(), "TODO share with ...", Toast.LENGTH_SHORT).show();
     }
 
     private void initCallHistory(Bundle savedInstanceState) {
-        // TODO
+
+        File[] files = new File(Environment.getExternalStorageDirectory(), recordingDir).listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String filename) {
+                return filename.toLowerCase().endsWith(".amr");
+            }
+        });
+
+        if(null == files)   return;
 
         mCallHistoryModels = new ArrayList<ItemCallHistoryModel>();
 
-        String name = "Name_";
-        String phone_num = "(505)123-4567";
-        for(int i = 1; i < 20; ++i) {
-            mCallHistoryModels.add(new ItemCallHistoryModel(phone_num, name + 1, i % 2 == 0, false));
+        for(int i = 0; i < files.length; ++i) {
+            Log.d(TAG, files[i].getName());
+
+            String fileName = files[i].getName();
+
+            ItemCallHistoryModel record = new ItemCallHistoryModel(fileName);
+            if(record.legalRecord()) {
+                mCallHistoryModels.add(record);
+            }
         }
 
         ListView lvCallHistory = (ListView) findViewById(R.id.call_history_item);
@@ -122,6 +140,6 @@ public class MainActivity extends SlidingFragmentActivity {
     }
 
     private void initSystemOverview(Bundle savedInstanceState) {
-        // TODO
+        // TODO system overview
     }
 }

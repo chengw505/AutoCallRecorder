@@ -1,0 +1,30 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="general_settings"
+        android:title="General">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enable_auto_record"
+            android:summary="@string/pref_description_enable_record"
+            android:title="@string/pref_title_enable_recorder" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="cloud_settings"
+        android:title="Cloud Storage">
+        <PreferenceScreen
+            android:key="google_drive"
+            android:icon="@drawable/google_cloud_storage"
+            android:summary="Setup account to upload recordings into clouds"
+            android:title="Setup Google Drive Account" >
+        </PreferenceScreen>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="wifi_only"
+            android:summary="@string/pref_description_wifi_only"
+            android:title="@string/pref_title_wifi_only" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -10,8 +10,8 @@
     <string name="pref_description_enable_record">Turn recording on/off
     </string>
 
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
+    <string name="pref_description_wifi_only">Upload recordings into cloud only on WiFi</string>
+    <string name="pref_title_wifi_only">Connect only on WiFi</string>
 
     <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
     <string-array name="pref_example_list_titles">

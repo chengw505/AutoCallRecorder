@@ -1,34 +1,56 @@
 package com.chengw.autocallrecorder.model;
 
+import android.util.Log;
+
+import com.chengw.autocallrecorder.MainActivity;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Cheng on 3/3/2015.
  */
 public class ItemCallHistoryModel {
-    String phone_num;
-    String contact_name;
-    boolean incoming_call;
-    boolean incloud;
+    String recordFileName;
+    String phoneNumber;
+    boolean incomingCall;
+    String localRecordingTime;
+    boolean inCloud;
 
-    public ItemCallHistoryModel(String phone_num, String contact_name, boolean incoming_call, boolean incloud) {
-        this.phone_num = phone_num;
-        this.contact_name = contact_name;
-        this.incoming_call = incoming_call;
-        this.incloud = incloud;
+    SimpleDateFormat timeFormat = new SimpleDateFormat("yyMMddHHmmss");
+
+    public ItemCallHistoryModel(String fileName) {
+        recordFileName = fileName;
     }
 
-    public String getPhone_num() {
-        return phone_num;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone_num(String phone_num) {
-        this.phone_num = phone_num;
+    // TODO IN-5051231234-time-zone.amr
+    public boolean legalRecord() {
+        String[] parts = recordFileName.split("-");
+        if(parts.length < 4) {
+            Log.d(MainActivity.TAG, "invalid file: " + recordFileName);
+            return false;
+        }
+
+        try {
+            Date recordingTime = timeFormat.parse(parts[2]);
+            localRecordingTime = new SimpleDateFormat("HH:mm").format(recordingTime);
+
+        } catch (ParseException e) {
+            Log.d(MainActivity.TAG, "invalid file: " + e.getMessage());
+            return false;
+        }
+        incomingCall = parts[0].compareTo("IN") == 1;
+        phoneNumber = parts[1];
+
+        return true;
     }
 
-    public String getContact_name() {
-        return contact_name;
-    }
-
-    public void setContact_name(String contact_name) {
-        this.contact_name = contact_name;
+    public String getCallTime() {
+        return localRecordingTime;
     }
 }
