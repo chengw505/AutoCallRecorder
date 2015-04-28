@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -19,13 +20,15 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 
+import static android.widget.Toast.LENGTH_LONG;
+
 
 public class MainActivity extends SlidingFragmentActivity {
     public final  static String TAG = "AutoRecorderTag";
     public final static String recordingDir = "MyCallRecordings";
 
     private LeftSlidingMenuFragment mSlidingMenuFrag;
-    private ArrayList<ItemCallHistoryModel> mCallHistoryModels;
+    private ArrayList<ItemCallHistoryModel> mCallHistoryList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -122,7 +125,7 @@ public class MainActivity extends SlidingFragmentActivity {
 
         if(null == files)   return;
 
-        mCallHistoryModels = new ArrayList<ItemCallHistoryModel>();
+        mCallHistoryList = new ArrayList<>();
 
         for(int i = 0; i < files.length; ++i) {
             Log.d(TAG, files[i].getName());
@@ -131,12 +134,20 @@ public class MainActivity extends SlidingFragmentActivity {
 
             ItemCallHistoryModel record = new ItemCallHistoryModel(fileName);
             if(record.legalRecord()) {
-                mCallHistoryModels.add(record);
+                mCallHistoryList.add(record);
             }
         }
 
         ListView lvCallHistory = (ListView) findViewById(R.id.call_history_item);
-        lvCallHistory.setAdapter(new CallHistoryAdapter(getApplicationContext(), mCallHistoryModels));
+        lvCallHistory.setAdapter(new CallHistoryAdapter(getApplicationContext(), mCallHistoryList));
+
+        lvCallHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String recordFileName = mCallHistoryList.get(position).getFileName();
+                Toast.makeText(MainActivity.this, recordFileName, LENGTH_LONG).show();
+            }
+        });
     }
 
     private void initSystemOverview(Bundle savedInstanceState) {

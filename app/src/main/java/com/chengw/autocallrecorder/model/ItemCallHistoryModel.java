@@ -53,4 +53,8 @@ public class ItemCallHistoryModel {
     public String getCallTime() {
         return localRecordingTime;
     }
+
+    public String getFileName() {
+        return recordFileName;
+    }
 }
