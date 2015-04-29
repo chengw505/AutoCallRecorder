@@ -146,6 +146,11 @@ public class MainActivity extends SlidingFragmentActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String recordFileName = mCallHistoryList.get(position).getFileName();
                 Toast.makeText(MainActivity.this, recordFileName, LENGTH_LONG).show();
+
+                PlayRecordingFragment dlg = new PlayRecordingFragment();
+                String fullPathName = Environment.getExternalStorageDirectory() + "/" + recordingDir + "/" + recordFileName;
+                dlg.setRecordingFileName(fullPathName);
+                dlg.show(getFragmentManager(), "Play Recordings");
             }
         });
     }

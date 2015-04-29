@@ -1,9 +1,11 @@
 package com.chengw.autocallrecorder;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
+import android.widget.Toast;
 
 public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
     public static final String key_google_drive = "google_drive";
@@ -23,6 +25,9 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
         if (key.equals(key_google_drive)) {
 
             // TODO
+            Toast.makeText(getApplicationContext(), "TODO google drive", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getBaseContext(), GoogleDriveClient.class);
+            startActivity(intent);
 
             return true;
         }

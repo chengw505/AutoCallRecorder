@@ -1,0 +1,73 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.chengw.autocallrecorder.PlayRecordingFragment">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/pause"
+            android:gravity="center_vertical">
+            <RelativeLayout
+                android:id="@+id/playerProgressLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="48.0dip"
+                android:layout_above="@+id/playerLayout"
+                android:background="@drawable/progresslayout_bg" >
+
+                <TextView
+                    android:id="@+id/player_current_time"
+                    android:layout_width="40.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5.0dip"
+                    android:text="0:00"
+                    android:textColor="@color/whilte"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/player_total_time"
+                    android:layout_width="40.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/player_current_time"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5.0dip"
+                    android:gravity="right"
+                    android:text="0:00"
+                    android:textStyle="bold"
+                    android:textColor="@color/whilte" />
+
+                <SeekBar
+                    android:id="@+id/player_progress"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="3.0dip"
+                    android:layout_marginTop="3.0dip"
+                    android:layout_toLeftOf="@id/player_total_time"
+                    android:layout_toRightOf="@id/player_current_time" />
+            </RelativeLayout>
+
+        </LinearLayout>
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/pause"
+            android:layout_gravity="right"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/pause" />
+    </RelativeLayout>
+
+</FrameLayout>
