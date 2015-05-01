@@ -102,20 +102,23 @@ public final class QuickContactHelper {
 
     public String getContactByNumber() {
         String contactName = null;
-        Cursor cursor;
+        Cursor cursor = null;
 
         String[] projection = new String[]{
                 //ContactsContract.Contacts._ID,
                 //ContactsContract.CommonDataKinds.Phone.NUMBER,
                 ContactsContract.Contacts.DISPLAY_NAME};
 
-        cursor = contentResolver.query(
-                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                projection,
-                ContactsContract.CommonDataKinds.Phone.NUMBER + " = " + phoneNumber,
-                null,
-                null);
-
+        try {
+            cursor = contentResolver.query(
+                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                    projection,
+                    ContactsContract.CommonDataKinds.Phone.NUMBER + " = " + phoneNumber,
+                    null,
+                    null);
+        }catch(Exception e) {
+            return null;
+        }
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
             contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));

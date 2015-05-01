@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.chengw.autocallrecorder.adpater.SlidingMenuAdapter;
 import com.chengw.autocallrecorder.model.ItemSlidingMenuModel;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import java.util.ArrayList;
 
@@ -20,11 +21,11 @@ import java.util.ArrayList;
  * Created by Cheng on 3/2/2015.
  */
 public class LeftSlidingMenuFragment extends Fragment {
-
     private View mView;
-    private ListView mSlidingMenu;
+    private ListView mSlidingMenuListView;
     private ArrayList<ItemSlidingMenuModel> mSlidingMenuModels;
     private Context context;
+    private SlidingMenu slidingMenu;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class LeftSlidingMenuFragment extends Fragment {
     }
 
     private void initialMenu() {
-        mSlidingMenu = (ListView)mView.findViewById(R.id.sliding_menu_item);
+        mSlidingMenuListView = (ListView)mView.findViewById(R.id.sliding_menu_item);
 
         mSlidingMenuModels = new ArrayList<ItemSlidingMenuModel>();
 
@@ -53,19 +54,21 @@ public class LeftSlidingMenuFragment extends Fragment {
         }
 
         // bind data
-        mSlidingMenu.setAdapter(new SlidingMenuAdapter(context, mSlidingMenuModels));
+        mSlidingMenuListView.setAdapter(new SlidingMenuAdapter(context, mSlidingMenuModels));
 
-        mSlidingMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mSlidingMenuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                switch(position) {
+                switch (position) {
                     case 0:
+                        getSlidingMenu().toggle();
                         startActivity(new Intent(context, SettingsActivity.class));
                         break;
 
                     default:
+                        getSlidingMenu().toggle();
                         Toast.makeText(view.getContext(), "TODO", Toast.LENGTH_SHORT).show();
                         break;
                 }
@@ -74,4 +77,11 @@ public class LeftSlidingMenuFragment extends Fragment {
     }
 
 
+    public void setSlidingMenu(SlidingMenu slidingMenu) {
+        this.slidingMenu = slidingMenu;
+    }
+
+    public SlidingMenu getSlidingMenu() {
+        return slidingMenu;
+    }
 }

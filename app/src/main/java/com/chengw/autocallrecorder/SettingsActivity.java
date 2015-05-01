@@ -26,6 +26,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 
             // TODO
             Toast.makeText(getApplicationContext(), "TODO google drive", Toast.LENGTH_SHORT).show();
+
             Intent intent = new Intent(getBaseContext(), GoogleDriveClient.class);
             startActivity(intent);
 

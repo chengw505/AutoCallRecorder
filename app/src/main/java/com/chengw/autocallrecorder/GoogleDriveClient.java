@@ -1,96 +1,124 @@
 package com.chengw.autocallrecorder;
 
 import android.app.Activity;
-import android.content.IntentSender;
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.drive.Drive;
-import com.google.android.gms.drive.DriveApi;
-import com.google.android.gms.drive.MetadataChangeSet;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 
 /**
  * Created by Cheng on 4/14/2015.
  */
-public class GoogleDriveClient extends Activity implements GooglePlayServicesClient.ConnectionCallbacks,
+public class GoogleDriveClient extends Activity implements
+        GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
-    private static final int REQUEST_CODE_CAPTURE_IMAGE = 1;
-    private static final int REQUEST_CODE_CREATOR = 2;
-    private static final int REQUEST_CODE_RESOLUTION = 3;
-
+    /**
+     * Request code for auto Google Play Services error resolution.
+     */
+    protected static final int REQUEST_CODE_RESOLUTION = 1;
+    private static final String TAG = "BaseDriveActivity";
     private GoogleApiClient mGoogleApiClient;
 
+    /**
+     * Called when activity gets visible. A connection to Drive services need to
+     * be initiated as soon as the activity is visible. Registers
+     * {@code ConnectionCallbacks} and {@code OnConnectionFailedListener} on the
+     * activities itself.
+     */
     @Override
-    public void onConnected(Bundle bundle) {
-
+    protected void onResume() {
+        super.onResume();
+        connect();
     }
 
-    @Override
-    public void onDisconnected() {
-
+    public void connect() {
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addApi(Drive.API)
+                    .addScope(Drive.SCOPE_FILE)
+                    .addScope(Drive.SCOPE_APPFOLDER) // required for App Folder sample
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .build();
+        }
+        mGoogleApiClient.connect();
     }
 
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
+    public void disconnect() {
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.disconnect();
+        }
     }
 
     /**
-     * Create a new file and save it to Drive.
+     * Handles resolution callbacks.
      */
-    private void saveFileToDrive() {
-        // Start by creating a new contents, and setting a callback.
-        Log.i(MainActivity.TAG, "Creating new contents.");
-        final Bitmap image = null;
-        Drive.DriveApi.newDriveContents(mGoogleApiClient)
-                .setResultCallback(new ResultCallback<DriveApi.DriveContentsResult>() {
-
-                    @Override
-                    public void onResult(DriveApi.DriveContentsResult result) {
-                        // If the operation was not successful, we cannot do anything and must fail.
-                        if (!result.getStatus().isSuccess()) {
-                            Log.i(MainActivity.TAG, "Failed to create new contents.");
-                            return;
-                        }
-                        // Otherwise, we can write our data to the new contents.
-                        Log.i(MainActivity.TAG, "New contents created.");
-                        // Get an output stream for the contents.
-                        OutputStream outputStream = result.getDriveContents().getOutputStream();
-                        // Write the bitmap data from it.
-                        ByteArrayOutputStream bitmapStream = new ByteArrayOutputStream();
-                        image.compress(Bitmap.CompressFormat.PNG, 100, bitmapStream);
-                        try {
-                            outputStream.write(bitmapStream.toByteArray());
-                        } catch (IOException e1) {
-                            Log.i(MainActivity.TAG, "Unable to write file contents.");
-                        }
-                        // Create the initial metadata - MIME type and title.
-                        // Note that the user will be able to change the title later.
-                        MetadataChangeSet metadataChangeSet = new MetadataChangeSet.Builder()
-                                .setMimeType("image/jpeg").setTitle("Android Photo.png").build();
-                        // Create an intent for the file chooser, and start it.
-                        IntentSender intentSender = Drive.DriveApi
-                                .newCreateFileActivityBuilder()
-                                .setInitialMetadata(metadataChangeSet)
-                                .setInitialDriveContents(result.getDriveContents())
-                                .build(mGoogleApiClient);
-                        try {
-                            startIntentSenderForResult(
-                                    intentSender, REQUEST_CODE_CREATOR, null, 0, 0, 0);
-                        } catch (IntentSender.SendIntentException e) {
-                            Log.i(MainActivity.TAG, "Failed to launch file chooser.");
-                        }
-                    }
-                });
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_RESOLUTION && resultCode == RESULT_OK) {
+            mGoogleApiClient.connect();
+        }
     }
 
+    /**
+     * Called when activity gets invisible. Connection to Drive service needs to
+     * be disconnected as soon as an activity is invisible.
+     */
+    @Override
+    protected void onPause() {
+        disconnect();
+        super.onPause();
+    }
+
+    /**
+     * Called when {@code mGoogleApiClient} is connected.
+     */
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        Log.i(TAG, "GoogleApiClient connected");
+        showMessage("GoogleApiClient connected");
+    }
+
+    /**
+     * Called when {@code mGoogleApiClient} is disconnected.
+     */
+    @Override
+    public void onConnectionSuspended(int cause) {
+        Log.i(TAG, "GoogleApiClient connection suspended");
+    }
+
+    /**
+     * Called when {@code mGoogleApiClient} is trying to connect but failed.
+     * Handle {@code result.getResolution()} if there is a resolution is
+     * available.
+     */
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        Log.i(TAG, "GoogleApiClient connection failed: " + result.toString());
+        if (!result.hasResolution()) {
+            // show the localized error dialog.
+            showMessage("Connection Failed: " + result.getErrorCode());
+            return;
+        }
+    }
+
+    /**
+     * Shows a toast message.
+     */
+    public void showMessage(String message) {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    /**
+     * Getter for the {@code GoogleApiClient}.
+     */
+    public GoogleApiClient getGoogleApiClient() {
+        return mGoogleApiClient;
+    }
 }
