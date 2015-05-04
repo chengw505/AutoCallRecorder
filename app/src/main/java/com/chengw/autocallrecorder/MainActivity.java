@@ -10,6 +10,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
@@ -37,6 +38,7 @@ public class MainActivity extends SlidingFragmentActivity {
     private SlidingMenu mSlidingMenu;
     private RecordingsDbAdapter mDB;
     private Handler mUploadLocalRecordingHandler;
+    private PlayRecordingFragment mPlayRecordingFrag;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -127,23 +129,34 @@ public class MainActivity extends SlidingFragmentActivity {
         Toast.makeText(getApplicationContext(), "TODO share with ...", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
+    }
+
     private void initCallHistory(Bundle savedInstanceState) {
 
         mCallHistoryList = new ArrayList<>();
+        mPlayRecordingFrag = new PlayRecordingFragment();
 
-        ListView lvCallHistory = (ListView) findViewById(R.id.call_history_item);
-        lvCallHistory.setAdapter(new CallHistoryAdapter(getApplicationContext(), mCallHistoryList));
+        ListView callHistoryListView = (ListView) findViewById(R.id.call_history_item);
+        callHistoryListView.setAdapter(new CallHistoryAdapter(getApplicationContext(), mCallHistoryList));
 
-        lvCallHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        callHistoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String recordFileName = mCallHistoryList.get(position).getFileName();
-                //Toast.makeText(MainActivity.this, recordFileName, Toast.LENGTH_LONG).show();
 
-                PlayRecordingFragment dlg = new PlayRecordingFragment();
                 String fullPathName = Environment.getExternalStorageDirectory() + "/" + recordingDir + "/" + recordFileName;
-                dlg.setRecordingFileName(fullPathName);
-                dlg.show(getFragmentManager(), "Play Recordings");
+                mPlayRecordingFrag.setRecordingFileName(fullPathName);
+                mPlayRecordingFrag.show(getFragmentManager(), "Play Recordings");
+            }
+        });
+
+        callHistoryListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                return false;
             }
         });
 

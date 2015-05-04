@@ -39,7 +39,7 @@ public class TelListenerReceiver extends BroadcastReceiver {
             return;
         }
 
-        // outgoing: EXTRA_STATE_RINGING -> EXTRA_STATE_OFFHOOK -> EXTRA_STATE_IDLE
+        // incoming: EXTRA_STATE_RINGING -> EXTRA_STATE_OFFHOOK -> EXTRA_STATE_IDLE
         final String stringExtra = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
         if (stringExtra.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
             Log.d(logTag, "[EXTRA_STATE_IDLE] outgoing call: " + phoneNum);
@@ -52,7 +52,7 @@ public class TelListenerReceiver extends BroadcastReceiver {
 
             startService(context);
         } else if (stringExtra.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
-            Log.d(logTag, "[EXTRA_STATE_RINGING] outgoing call: " + phoneNum);
+            Log.d(logTag, "[EXTRA_STATE_RINGING] incoming call: " + phoneNum);
 
             if (isIncoming) {
                 phoneNum = intent.getStringExtra(TelephonyManager.EXTRA_INCOMING_NUMBER);

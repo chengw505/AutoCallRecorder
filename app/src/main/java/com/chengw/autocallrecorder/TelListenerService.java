@@ -84,7 +84,8 @@ public class TelListenerService extends Service {
                     }
 
                     SimpleDateFormat format = new SimpleDateFormat("yyMMddHHmmssZ");
-                    String fileName = isIncoming ? "IN" : "OUT" + "-" + mIncomingNumber + "-" + format.format(new Date());
+                    String fileName = isIncoming ? "IN" : "OUT";
+                    fileName = fileName + "-" + mIncomingNumber + "-" + format.format(new Date());
                     mRecorder.setOutputFile(file.getAbsolutePath() + File.separator + fileName + ".amr");
                     try {
                         mRecorder.prepare();

@@ -26,31 +26,47 @@ public class PlayRecordingFragment extends DialogFragment {
 
     String mFullPathName;
     ImageButton mPauseButton;
-    MediaPlayer mMediaPlayer = new MediaPlayer();
+    MediaPlayer mMediaPlayer;
     private int mTotalTime;
     private int mCurrentTime;
-    TextView tvCurrentTime;
+    TextView mTvCurrentTime;
     private SeekBar mProgressBar;
+    private TextView mTvPlayTotalTime;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-
         View view = inflater.inflate(R.layout.play_recording, container);
-        tvCurrentTime = (TextView)view.findViewById(R.id.player_current_time);
-        mProgressBar = (SeekBar) view.findViewById(R.id.player_progress);
-        mPauseButton = (ImageButton)view.findViewById(R.id.pause);
+
+        if(view != null) {
+            mTvCurrentTime = (TextView) view.findViewById(R.id.player_current_time);
+            mProgressBar = (SeekBar) view.findViewById(R.id.player_progress);
+            mPauseButton = (ImageButton) view.findViewById(R.id.pause);
+            mTvPlayTotalTime = ((TextView) view.findViewById(R.id.player_total_time));
+
+            initialize();
+        }
+
+        return view;
+    }
+
+    public boolean initialize() {
+
+        mMediaPlayer = new MediaPlayer();
+        if (mMediaPlayer == null) {
+            return false;
+        }
 
         mPauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(mMediaPlayer.isPlaying()) {
                     mMediaPlayer.pause();
-                    mPauseButton.setImageResource(R.drawable.play);
+                    mPauseButton.setImageResource(android.R.drawable.ic_media_play);
                 } else {
                     mMediaPlayer.start();   // start or resume
-                    mPauseButton.setImageResource(R.drawable.pause);
+                    mPauseButton.setImageResource(android.R.drawable.ic_media_pause);
                 }
             }
         });
@@ -64,7 +80,8 @@ public class PlayRecordingFragment extends DialogFragment {
             formatter.setTimeZone(TimeZone.getTimeZone("CST"));
             String strTotalTime = formatter.format(mTotalTime);
 
-            ((TextView)view.findViewById(R.id.player_total_time)).setText(strTotalTime);
+            mTvPlayTotalTime.setText(strTotalTime);
+            mPauseButton.setImageResource(android.R.drawable.ic_media_pause);
 
             mMediaPlayer.start();
         } catch (Exception e) {
@@ -147,7 +164,7 @@ public class PlayRecordingFragment extends DialogFragment {
             e.printStackTrace();
         }
 
-        return view;
+        return true;
     }
 
     public void setRecordingFileName(String fileName) {
@@ -159,7 +176,8 @@ public class PlayRecordingFragment extends DialogFragment {
         super.onDismiss(dialog);
 
         if(mMediaPlayer.isPlaying()) {
-            mMediaPlayer.stop();
+            mMediaPlayer.release();
+            mMediaPlayer = null;
         }
     }
 
@@ -196,12 +214,12 @@ public class PlayRecordingFragment extends DialogFragment {
         SimpleDateFormat formatter = new SimpleDateFormat("mm:ss");
         formatter.setTimeZone(TimeZone.getTimeZone("CST"));
 
-        if (tvCurrentTime == null) {
+        if (mTvCurrentTime == null) {
             return false;
         }
 
         String strCurrentTime = formatter.format(currentTime);
-        tvCurrentTime.setText(strCurrentTime);
+        mTvCurrentTime.setText(strCurrentTime);
         return true;
     }
 }

@@ -54,6 +54,7 @@ public class CallHistoryAdapter extends BaseAdapter {
             holder = new CallHistoryItemHolder();
             convertView = mLayoutInflater.inflate(R.layout.call_history_item, null);
             holder.contactName = (TextView) convertView.findViewById(R.id.contact_name);
+            holder.incomingCall = (ImageView) convertView.findViewById(R.id.inout_img);
             holder.phoneNumber = (TextView) convertView.findViewById(R.id.phone_number);
             holder.callTime = (TextView) convertView.findViewById(R.id.call_time);
             holder.inCloud = (ImageView) convertView.findViewById(R.id.cloud_img);
@@ -64,6 +65,11 @@ public class CallHistoryAdapter extends BaseAdapter {
             holder = (CallHistoryItemHolder) convertView.getTag();
         }
 
+        if(mCallHistoryList.get(position).isIncoming()) {
+            holder.incomingCall.setImageResource(android.R.drawable.sym_call_incoming);
+        } else {
+            holder.incomingCall.setImageResource(android.R.drawable.sym_call_outgoing);
+        }
         String phoneNumber = mCallHistoryList.get(position).getPhoneNumber();
         holder.callTime.setText(mCallHistoryList.get(position).getCallTime());
         holder.phoneNumber.setText(PhoneNumberUtils.formatNumber(phoneNumber));
@@ -84,6 +90,7 @@ public class CallHistoryAdapter extends BaseAdapter {
         public TextView phoneNumber;
         public TextView contactName;
         public TextView callTime;
+        public ImageView incomingCall;
         public ImageView inCloud;
         public QuickContactBadge quickContactBadge;
     }

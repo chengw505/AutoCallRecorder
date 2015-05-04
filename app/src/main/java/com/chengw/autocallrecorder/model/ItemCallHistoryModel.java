@@ -44,7 +44,7 @@ public class ItemCallHistoryModel {
             Log.d(MainActivity.TAG, "invalid file: " + e.getMessage());
             return false;
         }
-        incomingCall = parts[0].compareTo("IN") == 1;
+        incomingCall = parts[0].equals("IN");
         phoneNumber = parts[1];
 
         return true;
@@ -56,5 +56,9 @@ public class ItemCallHistoryModel {
 
     public String getFileName() {
         return recordFileName;
+    }
+
+    public boolean isIncoming() {
+        return incomingCall;
     }
 }

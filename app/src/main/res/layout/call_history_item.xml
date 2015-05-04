@@ -63,7 +63,6 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/incall"
                     android:layout_alignParentLeft="true" />
 
                 <TextView
