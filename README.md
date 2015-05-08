@@ -11,8 +11,8 @@ AutoCallRecorder is designed for that, without any limits and ads free.
 
 <h2>Future work
 
-* Cloud storage support
-* Record filter
+* Cloud storage (debug)
+* Record filter (add)
 
 <h2>Requirement
 
