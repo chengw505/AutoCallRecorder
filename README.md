@@ -1,4 +1,24 @@
+<h1>Holistic Mobile App Development
+<h2>App Description
 
+Sometimes when I have a phone call with others, I need to write down a phone number, some addresses or other content. Sometimes I also need to save important phone call to review to remind me to do sth. 
+
+AutoCallRecorder is designed for that, without any limits and ads free.
+
+<h2>Features
+* background service to monitor phone status and record incoming/outgoing phone call
+* frontend manage UI to play back, upoad into cloud and other settings.
+
+<h2>Future work
+
+* Cloud storage support
+* Record filter
+
+<h2>Requirement
+
+Tested on my android 4.4.2. Just check out the source code and import into android studio.
+
+Or send me eamil at: chengw1005@unm.edu
 
 <h1>Paper prototype for AutoCallRecorder
 
