@@ -9,7 +9,6 @@ AutoCallRecorder is designed for that, without any limits and ads free.
 * background service to monitor phone status and record incoming/outgoing phone call
 * frontend manage UI to play back, upoad into cloud and other settings.
 
-
 <h2>Future work
 
 * Cloud storage support
