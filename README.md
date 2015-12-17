@@ -18,7 +18,7 @@ AutoCallRecorder is designed for that, without any limits and ads free.
 
 Tested on my android 4.4.2. Just check out the source code and import into android studio.
 
-Or send me eamil at: chengw1005@unm.edu
+Or send me eamil at: chengw1005_AT_unm.edu
 
 <h1>Paper prototype for AutoCallRecorder
 
